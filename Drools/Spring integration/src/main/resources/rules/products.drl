@@ -1,0 +1,28 @@
+package pl.grzejszczak.marcin
+
+import org.slf4j.LoggerFactory
+import pl.grzejszczak.marcin.drools.springintegration.DroolsSpring
+import pl.grzejszczak.marcin.drools.springintegration.model.Product
+import pl.grzejszczak.marcin.drools.springintegration.enums.TypeEnum
+
+import function pl.grzejszczak.marcin.drools.springintegration.utils.SomeUtil.replaceAWithB
+import function org.drools.core.util.StringUtils.isEmpty
+
+
+rule "MEDICAL rule"
+	dialect "mvel"
+when
+     $product : Product( typeEnum == TypeEnum.MEDICAL, productName != replaceAWithB($product.typeEnum.someOutputString) )
+then
+     modify ($product) {productName = replaceAWithB($product.typeEnum.someOutputString)}
+     LoggerFactory.getLogger(DroolsSpring.class).debug(String.format("MEDICAL rule applied, product name is now equal to [%s]", $product.productName))
+end
+
+rule "ELECTRONIC rule"
+	dialect "mvel"
+when
+     $product : Product( typeEnum == TypeEnum.ELECTRONIC, productName != replaceAWithB($product.typeEnum.someOutputString) )
+then
+     modify ($product) {productName = replaceAWithB($product.typeEnum.someOutputString)}
+     LoggerFactory.getLogger(DroolsSpring.class).debug(String.format("ELECTRONIC rule applied, product name is now equal to [%s]", $product.productName))
+end

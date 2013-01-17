@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+
+	<!-- Spring configuration based on annotations -->
+	<context:annotation-config />
+	<!-- Show Spring where to search for the beans (in which packages) -->
+	<context:component-scan base-package="pl.grzejszczak.marcin.camel" />
+	
+	<!-- Show Spring where to search for the properties files -->
+	<context:property-placeholder location="classpath:/camel/jms.properties" />
+
+	<!-- The ActiveMQ connection factory with specification of the server URL -->
+	<bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616" />
+	</bean>
+
+	<!-- Spring's jms connection factory -->
+	<bean id="cachingConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="activeMQConnectionFactory" />
+		<property name="sessionCacheSize" value="10" />
+	</bean>
+
+	<!-- The name of the queue from which we will take the messages -->
+	<bean id="origin" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="${jms.origin}" />
+	</bean>
+	<!-- The name of the queue to which we will route the messages -->
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="${jms.destination}" />
+	</bean>
+
+	<!-- Configuration of the JmsTemplate together with the connection factory and the message converter -->
+	<bean id="producerTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="cachingConnectionFactory" />
+		<property name="messageConverter" ref="oxmMessageConverter" />
+	</bean>
+
+	<!-- Custom message sender sending messages to the initial queue -->
+	<bean id="originPlayerSender" class="pl.grzejszczak.marcin.camel.manual.jms.PlayerDetailsSenderImpl">
+		<property name="destination" ref="origin" />
+	</bean>
+	<!-- Custom message sender sending messages to the destination queue -->
+	<bean id="destinationPlayerSender" class="pl.grzejszczak.marcin.camel.manual.jms.PlayerDetailsSenderImpl">
+		<property name="destination" ref="destination" />
+	</bean>
+
+	<!-- Custom message listener - listens to the initial queue  -->
+	<bean id="originListenerImpl" class="pl.grzejszczak.marcin.camel.manual.jms.ListenerImpl"/>
+	<!-- Custom message listener - listens to the destination queue  -->
+	<bean id="destinationListenerImpl" class="pl.grzejszczak.marcin.camel.manual.jms.FinalListenerImpl"/>
+
+	<!-- Spring's jms message listener container - specified the connection factory, the queue to be listened to and the component that listens to the queue -->
+	<bean id="jmsOriginContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="cachingConnectionFactory" />
+		<property name="destination" ref="origin" />
+		<property name="messageListener" ref="originListenerImpl" />
+	</bean>
+	
+	<!-- Spring's jms message listener container - specified the connection factory, the queue to be listened to and the component that listens to the queue -->
+	<bean id="jmsDestinationContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="cachingConnectionFactory" />
+		<property name="destination" ref="destination" />
+		<property name="messageListener" ref="destinationListenerImpl" />
+	</bean>
+	
+	<!-- Message converter - automatically marshalls and unmarshalls messages using the provided marshaller / unmarshaller-->
+	<bean id="oxmMessageConverter" class="org.springframework.jms.support.converter.MarshallingMessageConverter">
+          <property name="marshaller" ref="marshaller" />
+          <property name="unmarshaller" ref="marshaller" />
+     </bean>
+
+	<!-- Spring's JAXB implementation of marshaller - provided a class the JAXB generated class -->
+     <oxm:jaxb2-marshaller id="marshaller">
+          <oxm:class-to-be-bound name="pl.grzejszczak.marcin.camel.jaxb.generated.PlayerDetails" />
+     </oxm:jaxb2-marshaller>
+
+</beans>

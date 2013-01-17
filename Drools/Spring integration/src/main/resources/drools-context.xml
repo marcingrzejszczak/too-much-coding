@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:drools="http://drools.org/schema/drools-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd">
+
+    <!-- KNOWLEDGE BASE FOR A GIVEN TYPE -->
+    <drools:kbase id="productsKBase">
+        <drools:resources>
+            <drools:resource type="DRL"
+                             source="classpath:rules/products.drl"/>
+        </drools:resources>
+    </drools:kbase>
+
+    <drools:ksession id="productsKSession" name="productsKSession" type="stateless" kbase="productsKBase"/>
+    <alias name="productsKSession" alias="electronicKSession"/>
+    <alias name="productsKSession" alias="medicalKSession"/>
+
+</beans>

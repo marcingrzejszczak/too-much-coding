@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
+	
+	<import resource="classpath:/camel/jmsApplicationContext.xml" />
+	
+	<camel:camelContext id="camel" xmlns:camel="http://camel.apache.org/schema/spring">
+		<camel:dataFormats>
+			<camel:jaxb id="jaxb" prettyPrint="true" contextPath="pl.grzejszczak.marcin.camel.jaxb.generated" />
+		</camel:dataFormats>
+
+		<camel:route>
+			<camel:from uri="activemq:topic:Initial.Topic" />
+			<camel:unmarshal ref="jaxb" />
+			<camel:bean ref="enrichingService" />
+			<camel:marshal ref="jaxb" />
+			<camel:to uri="activemq:topic:Routed.Topic" />
+		</camel:route>
+
+	</camel:camelContext>
+</beans>
