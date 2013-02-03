@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd">
 
-    <!-- Execution Node identifier that is registered in the CamelContext -->
+    <!-- Grid Node identifier that is registered in the CamelContext -->
     <drools:grid-node id="node1"/>
 
     <drools:kbase id="productsKBase" node="node1">

@@ -21,9 +21,9 @@ public class ProductTypeConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductTypeConverter.class);
 
     @Converter
-    public static Command toCommandFromList(List<Product> productList) {
+    public static Command toCommandFromList(List inputList) {
         LOGGER.debug("Executing ProductTypeConverter's toCommandFromList method");
-        return CommandFactory.newInsertElements(productList);
+        return CommandFactory.newInsertElements(inputList);
     }
 
     @Converter
