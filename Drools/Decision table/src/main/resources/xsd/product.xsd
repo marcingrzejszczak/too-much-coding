@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:include schemaLocation="user.xsd"/>
+
+    <xsd:element name="Product">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Name" type="xsd:string"/>
+                <xsd:element name="Type" type="ProductType"/>
+                <xsd:element name="Price" type="xsd:double"/>
+                <xsd:element name="CountryOfOrigin" type="CountryType"/>
+                <xsd:element name="AdditionalInfo" type="xsd:string"/>
+                <xsd:element name="Quantity" type="xsd:int"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="ProductType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MEDICAL"/>
+            <xsd:enumeration value="ELECTRONIC"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

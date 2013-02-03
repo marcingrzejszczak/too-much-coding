@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:include schemaLocation="product.xsd"/>
+
+    <xsd:element name="User">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="UserName" type="xsd:string"/>
+                <xsd:element name="UserAge" type="xsd:int"/>
+                <xsd:element name="UserCountry" type="CountryType"/>
+                <xsd:element name="Decision" type="DecisionType"/>
+                <xsd:element name="DecisionDescription" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="CountryType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="PL"/>
+            <xsd:enumeration value="USA"/>
+            <xsd:enumeration value="GER"/>
+            <xsd:enumeration value="SWE"/>
+            <xsd:enumeration value="UK"/>
+            <xsd:enumeration value="ESP"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="DecisionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ACCEPTED"/>
+            <xsd:enumeration value="REJECTED"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
