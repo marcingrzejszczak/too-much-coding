@@ -31,7 +31,7 @@ public class ProductServiceImplTest {
     ProductService objectUnderTest;
 
     @Test
-    public void testRunProductLogicUserPlUnderageElectronicCountryPLQuantity10() throws Exception {
+    public void testRunProductLogicUserPlUnderageElectronicCountryPL() throws Exception {
         int initialPrice = 1000;
         int userAge = 6;
         int quantity = 10;
@@ -50,7 +50,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void testRunProductLogicUserPlAge19ElectronicCountryPLQuantity1() throws Exception {
+    public void testRunProductLogicUserPlHighAgeElectronicCountryPLLowQuantity() throws Exception {
         int initialPrice = 1000;
         int userAge = 19;
         int quantity = 1;
@@ -69,7 +69,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void testRunProductLogicUserPlAge19ElectronicCountryPLQuantity10() throws Exception {
+    public void testRunProductLogicUserPlHighAgeElectronicCountryPLHighQuantity() throws Exception {
         int initialPrice = 1000;
         int userAge = 19;
         int quantity = 8;
@@ -89,7 +89,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void testRunProductLogicUserUsaAge19ElectronicCountryPLQuantity10() throws Exception {
+    public void testRunProductLogicUserUsaLowAgeElectronicCountryPLHighQuantity() throws Exception {
         int initialPrice = 1000;
         int userAge = 19;
         int quantity = 8;
@@ -108,7 +108,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void testRunProductLogicUserUsaAge22MedicalCountrySWEQuantity4() throws Exception {
+    public void testRunProductLogicUserUsaHighAgeMedicalCountrySWELowQuantity() throws Exception {
         int initialPrice = 1000;
         int userAge = 22;
         int quantity = 4;
@@ -127,7 +127,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void testRunProductLogicUserUsaAge22MedicalCountrySWEQuantity8() throws Exception {
+    public void testRunProductLogicUserUsaHighAgeMedicalCountrySWEHighQuantity() throws Exception {
         int initialPrice = 1000;
         int userAge = 22;
         int quantity = 8;
