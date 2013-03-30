@@ -1,0 +1,22 @@
+apply plugin: 'java'
+
+group = 'com.blogspot.toomuchcoding'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.0.5'
+    compile 'org.slf4j:slf4j-log4j12:1.7.2'
+    compile 'log4j:log4j:1.2.16'
+    compile 'com.google.guava:guava:14.0'
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+task(executeMain, dependsOn: 'classes', type: JavaExec) {
+    main = 'com.blogspot.toomuchcoding.XmlTransformer'
+    classpath = sourceSets.main.runtimeClasspath
+}
