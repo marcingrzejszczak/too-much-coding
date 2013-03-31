@@ -29,6 +29,7 @@ public class TransformerFactoryImpl implements TransformerFactory<String, String
             groovyScriptEngine = new GroovyScriptEngine(GROOVY_SCRIPTS_CLASSPATH);
         } catch (IOException e) {
             LOGGER.error("Exception occurred while trying to create the Groovy script engine", e);
+            throw new RuntimeException(e);
         }
     }
 
