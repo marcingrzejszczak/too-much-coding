@@ -26,7 +26,9 @@ abstract class AbstractGroovyXmlTransformer implements Transformer<String, Strin
     abstract void doTransform(inputXml, outputXml)
 
     def propertyMissing(String name) {
-        MISSING_PROPERTIES[name]
+        Object property = MISSING_PROPERTIES[name]
+        assert property != null, "There is no function like [$name]. The ones that are supported are ${MISSING_PROPERTIES.keySet()}"
+        property
     }
 
 
