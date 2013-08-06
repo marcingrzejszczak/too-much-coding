@@ -18,26 +18,6 @@ class PlayerServiceImplWrittenUsingSpockTest extends ExtendedSpockSpecification 
         objectUnderTest = new PlayerServiceImpl()
     }
 
-    def "should return true if country code is the same"() {
-        given:
-            //PlayerDetails playerDetails = new PlayerDetails(clubDetails: new ClubDetails(country: new CountryDetails(countryCode: new CountryCodeDetails(countryCode: CountryCodeType.ENG))))
-            PlayerDetails playerDetails = new PlayerDetails(
-                    clubDetails: new ClubDetails(
-                            country: new CountryDetails(
-                                    countryCode: new CountryCodeDetails(
-                                            countryCode: CountryCodeType.ENG
-                                    )
-                            )
-                    )
-            )
-
-        when:
-            boolean playerIsOfGivenCountry = objectUnderTest.isPlayerOfGivenCountry(playerDetails, COUNTRY_CODE_ENG);
-
-        then:
-            playerIsOfGivenCountry
-    }
-
     def "should return true if country code is the same when creating nested structures using groovy"() {
         given:
             PlayerDetails playerDetails = new PlayerDetails(
