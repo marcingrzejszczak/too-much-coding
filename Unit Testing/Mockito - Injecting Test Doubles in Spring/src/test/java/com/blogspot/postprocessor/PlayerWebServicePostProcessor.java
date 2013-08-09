@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import static org.mockito.Mockito.spy;
 
 /**
- * User: mpasinski
+ * User: mgrzejszczak
  * Date: 07.05.13
  * Time: 11:30
  */
