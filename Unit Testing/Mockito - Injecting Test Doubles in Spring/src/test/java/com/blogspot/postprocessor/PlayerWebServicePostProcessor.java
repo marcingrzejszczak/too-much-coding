@@ -12,7 +12,6 @@ import static org.mockito.Mockito.spy;
  * Date: 07.05.13
  * Time: 11:30
  */
-@Component
 public class PlayerWebServicePostProcessor extends AbstractBeanPostProcessor<PlayerWebService> {
     public PlayerWebServicePostProcessor() {
         super(PlayerWebService.class);
