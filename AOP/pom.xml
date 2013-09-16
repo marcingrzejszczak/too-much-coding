@@ -9,12 +9,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-
 		<spring.version>3.1.0.RELEASE</spring.version>
-		<aspectj.version>1.6.11</aspectj.version>
+		<aspectj.version>1.6.7</aspectj.version>
 
 		<!-- Plugin versions -->
-		<aspectj-maven-plugin.version>1.4</aspectj-maven-plugin.version>
+		<aspectj-maven-plugin.version>1.3</aspectj-maven-plugin.version>
 
 	</properties>
 	<repositories>
@@ -22,10 +21,6 @@
 			<id>spring-release</id>
 			<url>http://maven.springframework.org/release</url>
 		</repository>
-		<repository>
-            <id>maven-us-nuxeo</id>
-            <url>https://maven-us.nuxeo.org/nexus/content/groups/public</url>
-        </repository>
 	</repositories>
 
 	<dependencies>
@@ -33,6 +28,11 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.0</version>
 		</dependency>
 		<!-- Spring -->
 		<dependency>
@@ -69,12 +69,7 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.6.11</version>
-		</dependency>
-		<dependency><!-- java bytecode processor -->
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.4.GA</version>
+			<version>${aspectj.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -87,4 +82,25 @@
 			<version>2.6</version>
 		</dependency>
 	</dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>${aspectj-maven-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
