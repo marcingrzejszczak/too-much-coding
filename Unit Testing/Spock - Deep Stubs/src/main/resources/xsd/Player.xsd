@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="PlayerDetails">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Name" type="xsd:string"/>
+                <xsd:element name="Surname" type="xsd:string"/>
+                <xsd:element name="Position" type="PositionType"/>
+                <xsd:element name="Age" type="xsd:int"/>
+                <xsd:element name="ClubDetails" type="ClubDetails"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="ClubDetails">
+        <xsd:sequence>
+            <xsd:element name="TeamName" type="xsd:string"/>
+            <xsd:element name="Country" type="CountryDetails"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="CountryDetails">
+        <xsd:sequence>
+            <xsd:element name="CountryName" type="xsd:string"/>
+            <xsd:element name="CountryCode" type="CountryCodeDetails"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="CountryCodeDetails">
+        <xsd:sequence>
+            <xsd:element name="CountryName" type="xsd:string"/>
+            <xsd:element name="CountryCode" type="CountryCodeType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="CountryCodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="PL"/>
+            <xsd:enumeration value="GER"/>
+            <xsd:enumeration value="FRA"/>
+            <xsd:enumeration value="ENG"/>
+            <xsd:enumeration value="ESP"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="PositionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="GK"/>
+            <xsd:enumeration value="DEF"/>
+            <xsd:enumeration value="MID"/>
+            <xsd:enumeration value="ATT"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
