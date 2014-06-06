@@ -1,32 +1,23 @@
 package pl.grzejszczak.marcin.junit.matchers.builder;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.junit.Before;
-import org.junit.Test;
-import pl.grzejszczak.marcin.junit.matchers.pojo.SomeBigPojo;
-
 import static java.lang.String.format;
-import static junit.framework.Assert.assertTrue;
-import static org.apache.commons.lang.StringUtils.isNumeric;
-import static org.junit.Assert.assertThat;
+import static junit.framework.Assert.*;
+import static org.apache.commons.lang.StringUtils.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 import static pl.grzejszczak.marcin.junit.matchers.pojo.SomePojoConstants.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mgrzejszczak
- * Date: 03.01.13
- * Time: 23:02
- */
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Test;
+
+import pl.grzejszczak.marcin.junit.matchers.pojo.SomeBigPojo;
+
+
 public class SomeBigPojoBuilderTest {
 
-    private SomeBigPojoBuilder objectUnderTest;
-
-    @Before
-    public void setUp(){
-        objectUnderTest = new SomeBigPojoBuilder();
-    }
+    SomeBigPojoBuilder objectUnderTest = new SomeBigPojoBuilder();
 
     @Test
     public void testCreateSomeBigPojoWithBuilder() throws Exception {
@@ -47,54 +38,41 @@ public class SomeBigPojoBuilderTest {
         assertThat(someBigPojo, isPojoProperlyBuilt());
     }
 
-    @Test(expected = AssertionError.class)
-    public void testCreateSomeBigPojoWithBuilderWrongFields() throws Exception {
-        SomeBigPojo someBigPojo = objectUnderTest
+    @Test
+    public void should_fail_to_build_pojo() throws Exception {
+        // given
+	    SomeBigPojo someBigPojo = objectUnderTest
                 .setStringField0("0")
                 .setStringField1("Too long")
                 .createSomeBigPojoWithBuilder();
-
-        assertThat(someBigPojo, isPojoProperlyBuilt());
+	    
+	    // expect
+	    try {
+		    assertThat(someBigPojo, isPojoProperlyBuilt());
+		    fail();
+	    } catch (AssertionError error) {}        
     }
 
     /**
      * Let us assume that there is a specific business case that we have to take into consideration regarding some particular field
      *
-     * @return
      */
     private static Matcher isPojoProperlyBuilt() {
 
-        return new BaseMatcher() {
+        return new TypeSafeMatcher<SomeBigPojo>() {
 
             @Override
-            public boolean matches(Object o) {
-                assertTrue(o instanceof SomeBigPojo);
-                SomeBigPojo someBigPojo = (SomeBigPojo) o;
-                assertThat(someBigPojo.getStringField0(), isOfGivenLength(STRING_FIELD_0_LENGTH));
-                assertThat(someBigPojo.getStringField0(), isFieldOfNumericValue());
-
-                assertThat(someBigPojo.getStringField1(), isOfGivenLength(STRING_FIELD_1_LENGTH));
-                assertThat(someBigPojo.getStringField1(), isFieldOfNumericValue());
-
-                assertThat(someBigPojo.getStringField2(), isOfGivenLength(STRING_FIELD_2_LENGTH));
-                assertThat(someBigPojo.getStringField2(), isFieldOfNumericValue());
-
-                assertThat(someBigPojo.getStringField3(), isOfGivenLength(STRING_FIELD_3_LENGTH));
-                assertThat(someBigPojo.getStringField3(), isFieldOfNumericValue());
-
-                assertThat(someBigPojo.getStringField4(), isOfGivenLength(STRING_FIELD_4_LENGTH));
-                assertThat(someBigPojo.getStringField4(), isFieldOfNumericValue());
-
+            public boolean matchesSafely(SomeBigPojo someBigPojo) {
+                assertThat(someBigPojo.getStringField0(), both(isOfGivenLength(STRING_FIELD_0_LENGTH)).and(isFieldOfNumericValue()));
+                assertThat(someBigPojo.getStringField1(), both(isOfGivenLength(STRING_FIELD_1_LENGTH)).and(isFieldOfNumericValue()));              
+                assertThat(someBigPojo.getStringField2(), both(isOfGivenLength(STRING_FIELD_2_LENGTH)).and(isFieldOfNumericValue()));
+                assertThat(someBigPojo.getStringField3(), both(isOfGivenLength(STRING_FIELD_3_LENGTH)).and(isFieldOfNumericValue()));
+                assertThat(someBigPojo.getStringField4(), both(isOfGivenLength(STRING_FIELD_4_LENGTH)).and(isFieldOfNumericValue()));
                 assertThat(someBigPojo.getStringField5(), isOfGivenLength(STRING_FIELD_5_LENGTH));
-
                 assertThat(someBigPojo.getStringField6(), isOfGivenLength(STRING_FIELD_6_LENGTH));
-
                 assertThat(someBigPojo.getStringField7(), isOfGivenLength(STRING_FIELD_7_LENGTH));
-
                 assertThat(someBigPojo.getStringField8(), isOfGivenLength(STRING_FIELD_8_LENGTH));
-
                 assertThat(someBigPojo.getStringField9(), isOfGivenLength(STRING_FIELD_9_LENGTH));
-
                 return true;
             }
 
@@ -105,12 +83,11 @@ public class SomeBigPojoBuilderTest {
         };
     }
 
-    private static Matcher isOfGivenLength(final Integer expectedLength) {
+    private static Matcher<String> isOfGivenLength(final Integer expectedLength) {
 
-        return new BaseMatcher() {
+        return new TypeSafeMatcher<String>() {
 
-            public boolean matches(Object o) {
-                assertTrue(o instanceof String);
+            public boolean matchesSafely(String o) {
                 return expectedLength == String.valueOf(o).length();
             }
 
@@ -120,12 +97,11 @@ public class SomeBigPojoBuilderTest {
         };
     }
 
-    private static Matcher isFieldOfNumericValue() {
+    private static Matcher<String> isFieldOfNumericValue() {
 
-        return new BaseMatcher() {
+        return new TypeSafeMatcher<String>() {
 
-            public boolean matches(Object o) {
-                assertTrue(o instanceof String);
+            public boolean matchesSafely(String o) {
                 return isNumeric(String.valueOf(o));
             }
 

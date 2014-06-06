@@ -1,20 +1,16 @@
 package pl.grzejszczak.marcin.junit.matchers.service;
 
+import static java.lang.String.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import pl.grzejszczak.marcin.junit.matchers.builder.SomeBigPojoBuilder;
 import pl.grzejszczak.marcin.junit.matchers.pojo.SomeBigPojo;
 
-import static java.lang.String.format;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mgrzejszczak
- * Date: 03.01.13
- * Time: 21:25
- */
-public class SomeServiceImpl implements SomeService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SomeServiceImpl.class);
+public class SomeService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SomeService.class);
 
     /** Could be an abstraction of builders injected by a setter - possible to mock */
     private SomeBigPojoBuilder someBigPojoBuilder;
@@ -22,7 +18,6 @@ public class SomeServiceImpl implements SomeService {
     /**
      * Hard to unit test
      */
-    @Override
     public void someLogicForAPojoWithoutBuilder() {
         LOGGER.debug("SomeLogicForAPojoWithoutBuilder executed");
         SomeBigPojo someBigPojo = new SomeBigPojo("string", 1, false, "other string", 123, true, "something else", 321, false, "yet another string", 111, true, "something", 2, false, "More", 3, true, "String", 12, false, "some", "value", "ofString");
@@ -32,7 +27,6 @@ public class SomeServiceImpl implements SomeService {
         LOGGER.debug(someBigPojo.toString());
     }
 
-    @Override
     public void someLogicForAPojoWithBuilder() {
         LOGGER.debug("SomeLogicForAPojoWithBuilder executed");
         SomeBigPojo someBigPojo = someBigPojoBuilder
@@ -67,7 +61,6 @@ public class SomeServiceImpl implements SomeService {
         LOGGER.debug(someBigPojo.toString());
     }
 
-    @Override
     public void someLogicForAPojoWithBuilderBadArgument() {
         LOGGER.debug("someLogicForAPojoWithBuilderBadArgument executed");
         SomeBigPojo someBigPojo = someBigPojoBuilder

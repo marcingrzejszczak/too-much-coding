@@ -1,32 +1,21 @@
 package pl.grzejszczak.marcin.junit.matchers.builder;
 
-import org.junit.Before;
-import org.junit.Test;
-import pl.grzejszczak.marcin.junit.matchers.pojo.SomeBigPojo;
-
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.apache.commons.lang.StringUtils.isNumeric;
+import static junit.framework.Assert.*;
+import static org.apache.commons.lang.StringUtils.*;
 import static pl.grzejszczak.marcin.junit.matchers.pojo.SomePojoConstants.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mgrzejszczak
- * Date: 03.01.13
- * Time: 23:02
- */
+import org.junit.Test;
+
+import junit.framework.AssertionFailedError;
+import pl.grzejszczak.marcin.junit.matchers.pojo.SomeBigPojo;
+
 public class SomeBigPojoBuilderNoMatchersTest {
 
-    private SomeBigPojoBuilder objectUnderTest;
-
-    @Before
-    public void setUp() {
-        objectUnderTest = new SomeBigPojoBuilder();
-    }
+    private SomeBigPojoBuilder systemUnderTest = new SomeBigPojoBuilder();
 
     @Test
     public void testCreateSomeBigPojoWithBuilder() throws Exception {
-        SomeBigPojo someBigPojo = objectUnderTest
+        SomeBigPojo someBigPojo = systemUnderTest
                 .setBooleanField1(true)
                 .setStringField0("1")
                 .setStringField1("12")
@@ -43,20 +32,26 @@ public class SomeBigPojoBuilderNoMatchersTest {
         isPojoProperlyBuilt(someBigPojo);
     }
 
-    @Test(expected = AssertionError.class)
-    public void testCreateSomeBigPojoWithBuilderWrongFields() throws Exception {
-        SomeBigPojo someBigPojo = objectUnderTest
+    @Test
+    public void should_fail_to_build_pojo() {
+        // given
+	    SomeBigPojo someBigPojo = systemUnderTest
                 .setStringField0("0")
                 .setStringField1("too long")
                 .createSomeBigPojoWithBuilder();
 
-        isPojoProperlyBuilt(someBigPojo);
+	    // expect
+	    try {
+		    isPojoProperlyBuilt(someBigPojo);
+		    fail();
+	    } catch (AssertionFailedError error) {}
+	    
     }
 
     private void isPojoProperlyBuilt(SomeBigPojo someBigPojo) {
         isOfGivenLength(someBigPojo.getStringField0(), STRING_FIELD_0_LENGTH);
         isFieldOfNumericValue(someBigPojo.getStringField0());
-
+	    
         isOfGivenLength(someBigPojo.getStringField1(), STRING_FIELD_1_LENGTH);
         isFieldOfNumericValue(someBigPojo.getStringField0());
 

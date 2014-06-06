@@ -1,11 +1,10 @@
 package pl.grzejszczak.marcin.junit.matchers.pojo;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mgrzejszczak
- * Date: 03.01.13
- * Time: 21:05
- */
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+
 public class SomeBigPojo {
     private String stringField0;
     private Integer integerField0;
@@ -253,33 +252,16 @@ public class SomeBigPojo {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("SomeBigPojo");
-        sb.append("{stringField0='").append(stringField0).append('\'');
-        sb.append(", integerField0=").append(integerField0);
-        sb.append(", booleanField0=").append(booleanField0);
-        sb.append(", stringField1='").append(stringField1).append('\'');
-        sb.append(", integerField1=").append(integerField1);
-        sb.append(", booleanField1=").append(booleanField1);
-        sb.append(", stringField2='").append(stringField2).append('\'');
-        sb.append(", integerField2=").append(integerField2);
-        sb.append(", booleanField2=").append(booleanField2);
-        sb.append(", stringField3='").append(stringField3).append('\'');
-        sb.append(", integerField3=").append(integerField3);
-        sb.append(", booleanField3=").append(booleanField3);
-        sb.append(", stringField4='").append(stringField4).append('\'');
-        sb.append(", integerField4=").append(integerField4);
-        sb.append(", booleanField4=").append(booleanField4);
-        sb.append(", stringField5='").append(stringField5).append('\'');
-        sb.append(", integerField5=").append(integerField5);
-        sb.append(", booleanField5=").append(booleanField5);
-        sb.append(", stringField6='").append(stringField6).append('\'');
-        sb.append(", integerField6=").append(integerField6);
-        sb.append(", booleanField6=").append(booleanField6);
-        sb.append(", stringField7='").append(stringField7).append('\'');
-        sb.append(", stringField8='").append(stringField8).append('\'');
-        sb.append(", stringField9='").append(stringField9).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return ToStringBuilder.reflectionToString(this);
     }
+
+	@Override
+	public boolean equals(Object o) {
+		return EqualsBuilder.reflectionEquals(this, o);
+	}
+
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
 }

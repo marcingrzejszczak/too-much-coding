@@ -1,11 +1,5 @@
 package pl.grzejszczak.marcin.junit.matchers.pojo;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mgrzejszczak
- * Date: 03.01.13
- * Time: 23:22
- */
 public interface SomePojoConstants {
     int STRING_FIELD_0_LENGTH = 1;
     int STRING_FIELD_1_LENGTH = 2;

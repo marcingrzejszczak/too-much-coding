@@ -1,15 +1,9 @@
 package pl.grzejszczak.marcin.junit.matchers.builder;
 
+import static com.google.common.base.Preconditions.*;
+
 import pl.grzejszczak.marcin.junit.matchers.pojo.SomeBigPojo;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-/**
- * Created with IntelliJ IDEA.
- * User: mgrzejszczak
- * Date: 03.01.13
- * Time: 21:08
- */
 public class SomeBigPojoBuilder {
     /** A field with some default value */
     private String stringField0 = "defaultValueForString0";
